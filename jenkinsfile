@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+    environment {
+        name = 'maheshmudigoud'
+    }
+    
+    stages {
+        stage('Run a coommand') {
+            steps {
+                sh '''
+                ls
+                date
+                pwd
+                cal 2024
+                '''
+            }
+        }
+        stage('Environment Variables') {
+            environment {
+        username = 'maheshmudigoud'
+        }
+            steps {
+                sh 'echo  "${BUILD_ID}"'
+                sh 'echo  "${name}"'
+                sh 'echo  "${username}"'
+                
+            }
+        }
+        stage('test') {
+            steps {
+                echo 'Deploye on test'
+                sh 'echo  "${name}"'
+                sh 'echo  "${username}"'
+            }
+        }
+        stage('continue ?') {
+            input {
+                message "sholud we continue?"
+                ok "yes we should"
+            }
+            steps {
+                echo 'Deploye on prod'
+            }
+        }
+        stage('Deploye on prod') {
+            steps {
+                echo 'Deploye on prod'
+            }
+        }
+        
+    }
+    post{
+        always { 
+            echo 'I will always say Hello again!'
+        }
+        failure {
+            echo 'failure'
+        }
+        success {
+            echo 'success'
+        }
+    }
+}
